@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebennix <ebennix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bennix <bennix@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 03:11:48 by ebennix           #+#    #+#             */
-/*   Updated: 2022/11/12 02:18:07 by ebennix          ###   ########.fr       */
+/*   Updated: 2023/02/01 14:48:53 by bennix           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 typedef struct t_vb
 {
 	char	**tstr;
@@ -108,24 +107,18 @@ char	**ft_split(char const *s, char c)
 	return (vb.tstr[vb.j] = NULL, vb.tstr);
 }
 
-void	*get(char **p)
-{
-	return p;
-}
 int main()
 {
-	char p[] = "sdfds dfsd fsdsf";
-	char *y = ft_split(p, ' ');
+	char *p = "sdfds dfsd fsdsf";
+	char **y = ft_split(p, ' ');
 	int i = 0;
-	char *s = get(y);
-	while (i < (4 * 8))
+	while (1)
 	{
-		printf("%p\n", s);
-		s++;
+		printf("%s\n", y[i]);
 		i++;
-		if ((i % 8) == 0)
-			printf("\n\n");
+		if (y[i] == NULL)
+		{
+			return 0 ;
+		}
 	}
-
-	
 }
