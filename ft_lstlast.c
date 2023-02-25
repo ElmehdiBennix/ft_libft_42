@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebennix <ebennix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 11:19:09 by ebennix           #+#    #+#             */
-/*   Updated: 2023/02/22 05:38:22 by ebennix          ###   ########.fr       */
+/*   Created: 2023/02/21 21:06:42 by ebennix           #+#    #+#             */
+/*   Updated: 2023/02/22 09:05:28 by ebennix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isdigit(int c)
+t_list	*ft_lstlast(t_list *lst)
 {
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
+	t_list	*arrow;
+
+	arrow = lst;
+	if (arrow)
+		while (arrow ->next != NULL)
+			arrow = arrow -> next;
+	return (arrow);
 }

@@ -3,122 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bennix <bennix@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ebennix <ebennix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/30 03:11:48 by ebennix           #+#    #+#             */
-/*   Updated: 2023/02/01 14:48:53 by bennix           ###   ########.fr       */
+/*   Created: 2023/02/08 20:52:56 by ebennix           #+#    #+#             */
+/*   Updated: 2023/02/20 23:01:00 by ebennix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-typedef struct t_vb
-{
-	char	**tstr;
-	int		i;
-	int		j;
-	int		k;
-} s_vb;
 
-static int	count_word(char const *s, char c)
+static	int	word_counter(char *str, char delim)
 {
-	unsigned int	i ;
-	unsigned int	word ;
+	int	word;
 
-	i = 0;
 	word = 0;
-	while (s[i] != '\0')
+	while (*str)
 	{
-		while (s[i] == c)
+		while (*str != '\0' && *str == delim)
+			str++;
+		if (*str != '\0' && *str != delim)
 		{
-			i++;
-		}
-		if (s[i] != '\0')
-		{
-			while (s[i] != '\0' && s[i] != c)
-			{
-				i++;
-			}
 			word++;
+			while (*str != '\0' && *str != delim)
+				str++;
 		}
 	}
 	return (word);
 }
 
-static int	len_word(char const *s, int i, char c)
+static	char	*word_malloc(char *str, char delim)
 {
-	int	j;
+	char	*word;
+	int		i;
 
-	j = 0;
-	while (s[i] != '\0' && s[i] != c)
-	{
+	i = 0;
+	while (str[i] != '\0' && str[i] != delim)
 		i++;
-		j++;
+	word = (char *)malloc(sizeof(char) * (i + 1));
+	if (!word)
+		return (NULL);
+	i = 0;
+	while (str[i] != '\0' && str[i] != delim)
+	{
+		word[i] = str[i];
+		i++;
 	}
-	return (j);
+	word[i] = '\0';
+	return (word);
 }
 
-static	char **set_data(int size)
+char	**free_2d(char **str)
 {
-	char **tab;
+	char	*tab;
+	int		i;
 
-	tab = NULL;
-	tab = (char **)malloc(size * sizeof(char *));
+	i = 0;
+	while (str[i] != '\0')
+	{
+		tab = str[i];
+		free(tab);
+		i++;
+	}
+	free(str);
+	str = NULL;
+	return (NULL);
+}
+
+char	**ft_split(char *str, char delim)
+{
+	char	**tab;
+	int		i;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	tab = (char **)malloc((word_counter(str, delim) + 1) * sizeof(char *));
 	if (!tab)
 		return (NULL);
+	while (*str)
+	{
+		while (*str != '\0' && *str == delim)
+			str++;
+		if (*str != '\0' && *str != delim)
+		{
+			tab[i] = word_malloc(str, delim);
+			if (tab[i] == NULL)
+				return (free_2d(tab));
+			i++;
+			while (*str != '\0' && *str != delim)
+				str++;
+		}
+	}
+	tab[i] = NULL;
 	return (tab);
-}
-
-static void	ft_clean(char **tstr)
-{
-	while (*tstr)
-	{
-		free(*tstr);
-		(*tstr)++;
-	}
-	free(tstr);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	s_vb vb;
-
-	ft_bzero(&vb , sizeof(s_vb));
-	if (!s)
-		return (NULL);
-	vb.tstr = set_data((count_word(s, c) + 1));
-	if (!vb.tstr)
-		return (NULL);
-	while (s[vb.i] != '\0')
-	{
-		while (s[vb.i] == c)
-			vb.i++;
-		if (s[vb.i] != '\0')
-		{
-			vb.k = 0;
-			vb.tstr[vb.j] = (char *)malloc((
-				len_word(s, vb.i, c) + 1) * sizeof(char));
-			if (!vb.tstr)
-				return (ft_clean(vb.tstr), NULL);
-			while (s[vb.i] != '\0' && s[vb.i] != c)
-				vb.tstr[vb.j][vb.k++] = s[vb.i++];
-			vb.tstr[vb.j++][vb.k] = '\0';
-		}
-	}
-	return (vb.tstr[vb.j] = NULL, vb.tstr);
-}
-
-int main()
-{
-	char *p = "sdfds dfsd fsdsf";
-	char **y = ft_split(p, ' ');
-	int i = 0;
-	while (1)
-	{
-		printf("%s\n", y[i]);
-		i++;
-		if (y[i] == NULL)
-		{
-			return 0 ;
-		}
-	}
 }

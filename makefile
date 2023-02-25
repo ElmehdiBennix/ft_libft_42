@@ -6,26 +6,39 @@
 #    By: ebennix <ebennix@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/22 04:53:15 by ebennix           #+#    #+#              #
-#    Updated: 2022/11/10 20:53:06 by ebennix          ###   ########.fr        #
+#    Updated: 2023/02/25 08:08:34 by ebennix          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := libft.a
-CFLAGS := -Wall -Wextra -Werror
+
+CFLAGS := -g -Wall -Wextra -Werror
+
 HEADER := libft.h
+
 CC := cc
-SRC := ft_atoi.c    ft_itoa.c       ft_putnbr_fd.c  ft_strlcpy.c	  ft_tolower.c    \
-	ft_bzero.c      ft_memchr.c     ft_putstr_fd.c  ft_strlen.c		  ft_toupper.c    \
-	ft_calloc.c     ft_memcmp.c     ft_split.c      ft_strmapi.c	  ft_substr.c     \
-	ft_isalnum.c    ft_memcpy.c     ft_strchr.c     ft_strncmp.c	  ft_substr.c     \
-	ft_isalpha.c    ft_substr.c     ft_strdup.c     ft_strnstr.c	  ft_isprint.c    \
-	ft_isascii.c    ft_memset.c     ft_striteri.c   ft_strrchr.c	  ft_putendl_fd.c \
-	ft_isdigit.c    ft_putchar_fd.c ft_strjoin.c    ft_strtrim.c	  ft_strlcat.c    \
-	ft_memmove.c
+
+FILES := ft_atoi		 ft_itoa	        ft_putnbr_fd	     ft_strlcpy		   ft_tolower	   \
+		 ft_bzero	     ft_memchr	     	ft_putstr_fd	     ft_strlen	 	   ft_toupper	   \
+		 ft_calloc	     ft_memcmp	     	ft_split	         ft_strmapi		   ft_substr	   \
+		 ft_isalnum	     ft_memcpy	     	ft_strchr	       	 ft_strncmp		   ft_substr	   \
+		 ft_isalpha	     ft_substr	     	ft_strdup	       	 ft_strnstr		   ft_isprint	   \
+		 ft_isascii	     ft_memset	     	ft_striteri	         ft_strrchr		   ft_putendl_fd   \
+		 ft_isdigit	     ft_putchar_fd	 	ft_strjoin	         ft_strtrim		   ft_strlcat	   \
+		 ft_memmove	 	 ft_lstsize	 	 	ft_lstadd_front	   	 ft_lstnew	  	   ft_lstlast      \
+		 ft_lstadd_back	 ft_lstcreate_back 	ft_lstcreate_front
+
+
+SRC := $(FILES:=.c)
 
 OBJ := $(SRC:.c=.o)
+
 AR := ar -rc
+
 RM := rm -rf
+
+m := MakefileAutoPush
+
 
 all : $(NAME)
 
@@ -42,5 +55,11 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+git :
+	git add .
+	git status
+	git commit -m "$(m)"
+	git push
 
 .PHONY: all clean fclean re
